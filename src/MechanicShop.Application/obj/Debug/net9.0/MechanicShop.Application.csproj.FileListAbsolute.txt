@@ -1,0 +1,16 @@
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/bin/Debug/net9.0/MechanicShop.Application.deps.json
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/bin/Debug/net9.0/MechanicShop.Application.dll
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/bin/Debug/net9.0/MechanicShop.Application.pdb
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/bin/Debug/net9.0/MechanicShop.Domain.dll
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/bin/Debug/net9.0/MechanicShop.Domain.pdb
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/obj/Debug/net9.0/MechanicShop.Application.csproj.AssemblyReference.cache
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/obj/Debug/net9.0/MechanicShop.Application.GeneratedMSBuildEditorConfig.editorconfig
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/obj/Debug/net9.0/MechanicShop.Application.AssemblyInfoInputs.cache
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/obj/Debug/net9.0/MechanicShop.Application.AssemblyInfo.cs
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/obj/Debug/net9.0/MechanicShop.Application.csproj.CoreCompileInputs.cache
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/obj/Debug/net9.0/MechanicShop.Application.sourcelink.json
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/obj/Debug/net9.0/Mechanic.B1FFC696.Up2Date
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/obj/Debug/net9.0/MechanicShop.Application.dll
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/obj/Debug/net9.0/refint/MechanicShop.Application.dll
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/obj/Debug/net9.0/MechanicShop.Application.pdb
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Application/obj/Debug/net9.0/ref/MechanicShop.Application.dll

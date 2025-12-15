@@ -1,0 +1,13 @@
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Domain/bin/Debug/net9.0/MechanicShop.Domain.deps.json
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Domain/bin/Debug/net9.0/MechanicShop.Domain.dll
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Domain/bin/Debug/net9.0/MechanicShop.Domain.pdb
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Domain/obj/Debug/net9.0/MechanicShop.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Domain/obj/Debug/net9.0/MechanicShop.Domain.AssemblyInfoInputs.cache
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Domain/obj/Debug/net9.0/MechanicShop.Domain.AssemblyInfo.cs
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Domain/obj/Debug/net9.0/MechanicShop.Domain.csproj.CoreCompileInputs.cache
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Domain/obj/Debug/net9.0/MechanicShop.Domain.sourcelink.json
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Domain/obj/Debug/net9.0/MechanicShop.Domain.dll
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Domain/obj/Debug/net9.0/refint/MechanicShop.Domain.dll
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Domain/obj/Debug/net9.0/MechanicShop.Domain.pdb
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Domain/obj/Debug/net9.0/ref/MechanicShop.Domain.dll
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Domain/obj/Debug/net9.0/MechanicShop.Domain.csproj.AssemblyReference.cache
