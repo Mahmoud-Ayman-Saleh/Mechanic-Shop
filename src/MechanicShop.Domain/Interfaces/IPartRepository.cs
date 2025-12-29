@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MechanicShop.Domain.Entities;
+using static MechanicShop.Domain.Interfaces.IGenericRepository;
 
 namespace MechanicShop.Domain.Interfaces
 {
-    public interface IPartRepository : IGenericRepository
+    public interface IPartRepository : IGenericRepository<Part>
     {
-        public Task<(IEnumerable<Part> parts, int totalCount)> GetAllPartsAsync(string? category = null, string? supplier = null, string? search = null);
-        public Task AddAsync(Part part);
-        public Task<Part?> GetByIdAsync(int id);
-        public Task UpdateAsync(Part part);
-        public Task DeleteAsync(int id);
-
+        Task<(IEnumerable<Part> parts, int totalCount)> GetAllPartsAsync(string? category = null, string? supplier = null, string? search = null);
     }
 }
