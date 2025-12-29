@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using MechanicShop.Domain.Entities;
 
-namespace MechanicShop.Domain.Interfaces
+namespace MechanicShop.Application.Interfaces
 {
-    public interface IRepairTaskRepository : IGenericRepository
+    public interface IRepairTaskService
     {
         Task<IEnumerable<RepairTask>> SearchByNameAsync(string searchTerm);
         Task<IEnumerable<Part>> GetAssociatedPartsAsync(int taskId);

@@ -6,7 +6,7 @@ using MechanicShop.Domain.Entities;
 
 namespace MechanicShop.Domain.Interfaces
 {
-    public interface IInvoiceRepository
+    public interface IInvoiceRepository : IGenericRepository
     {
         Task<Invoice?> GetByWorkOrderIdAsync(int workOrderId);
         Task<Invoice> CreateFromWorkOrderAsync(int workOrderId);

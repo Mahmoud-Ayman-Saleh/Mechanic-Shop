@@ -6,7 +6,7 @@ using MechanicShop.Domain.Entities;
 
 namespace MechanicShop.Domain.Interfaces
 {
-    public interface IPartRepository
+    public interface IPartRepository : IGenericRepository
     {
         public Task<(IEnumerable<Part> parts, int totalCount)> GetAllPartsAsync(string? category = null, string? supplier = null, string? search = null);
         public Task AddAsync(Part part);

@@ -7,7 +7,7 @@ using MechanicShop.Domain.Enums;
 
 namespace MechanicShop.Domain.Interfaces
 {
-    public interface IWorkOrderRepository
+    public interface IWorkOrderRepository : IGenericRepository
     {
         Task<WorkOrder?> GetWithDetailsAsync(int id);
         Task AssignEmployeesAsync(int workOrderId, List<int> employeeIds);
