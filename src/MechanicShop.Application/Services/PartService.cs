@@ -44,7 +44,7 @@ namespace MechanicShop.Application.Services
                 throw new InvalidOperationException("Adjustment would result in negative stock.");
 
             part.StockQuantity += adjustment;
-            part.UpdatedAt = DateTime.UtcNow;
+            part.UpdatedAt = DateTime.Now;
             
             await _unitOfWork.Parts.UpdateAsync(part);
             await _unitOfWork.SaveChangesAsync();
@@ -62,8 +62,8 @@ namespace MechanicShop.Application.Services
                 StockQuantity = dto.StockQuantity,
                 Category = dto.Category,
                 Supplier = dto.Supplier,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
 
             };
 
@@ -72,6 +72,9 @@ namespace MechanicShop.Application.Services
             {
                 var createdPart = await _unitOfWork.Parts.AddAsync(part);
                 // TODO: Create initial price history
+
+                await _partRepository.CreatePriceHistoryAsync(createdPart.Id, createdPart.CurrentCost);
+
                 await _unitOfWork.SaveChangesAsync();
                 await _unitOfWork.CommitTransactionAsync();
                 
@@ -143,12 +146,12 @@ namespace MechanicShop.Application.Services
                 part.StockQuantity = dto.StockQuantity;
                 part.Category = dto.Category;
                 part.Supplier = dto.Supplier;
-                part.UpdatedAt = DateTime.UtcNow;
+                part.UpdatedAt = DateTime.Now;
 
                 await _unitOfWork.Parts.UpdateAsync(part);
 
                 // TODO: Create new price history if cost changed
-
+                if (costChanged) await _partRepository.CreatePriceHistoryAsync(part.Id, part.CurrentCost);
 
                 await _unitOfWork.SaveChangesAsync();
                 await _unitOfWork.CommitTransactionAsync();

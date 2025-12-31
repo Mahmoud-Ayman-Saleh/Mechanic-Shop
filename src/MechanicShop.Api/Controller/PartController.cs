@@ -14,7 +14,7 @@ namespace MechanicShop.Api.Controller
 {
     [Route("[controller]")]
     [ApiController]
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     public class PartController : ControllerBase
     {
         private readonly IPartService _partService;

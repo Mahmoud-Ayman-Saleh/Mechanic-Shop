@@ -43,3 +43,6 @@
 /home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Api/obj/Debug/net9.0/MechanicShop.Api.pdb
 /home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Api/obj/Debug/net9.0/MechanicShop.Api.genruntimeconfig.cache
 /home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Api/obj/Debug/net9.0/ref/MechanicShop.Api.dll
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Api/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Api/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/src/MechanicShop.Api/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll

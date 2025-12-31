@@ -15,6 +15,33 @@ namespace MechanicShop.Infrastructure.Repositories
         {
         }
 
+        public async Task CreatePriceHistoryAsync(int partId, decimal currentCost)
+        {
+            var now = DateTime.Now;
+
+            // Close any currently active price history records (where EffectiveTo is NULL)
+            var activePriceHistory = await _context.PartPriceHistories
+                .Where(pph => pph.PartId == partId && pph.EffectiveTo == null)
+                .ToListAsync();
+
+            foreach (var history in activePriceHistory)
+            {
+                history.EffectiveTo = now;
+            }
+
+            // Create new price history record
+            var newPriceHistory = new PartPriceHistory
+            {
+                PartId = partId,
+                UnitCost = currentCost,
+                EffectiveFrom = now,
+                EffectiveTo = null,  // Currently active
+                CreatedAt = now
+            };
+
+            await _context.PartPriceHistories.AddAsync(newPriceHistory);
+        }
+
         public async Task<(IEnumerable<Part> parts, int totalCount)> GetAllPartsAsync(string? category = null, string? supplier = null, string? search = null)
         {
             var query = _dbSet.AsQueryable();

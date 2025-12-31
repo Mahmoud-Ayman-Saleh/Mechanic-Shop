@@ -10,5 +10,6 @@ namespace MechanicShop.Domain.Interfaces
     public interface IPartRepository : IGenericRepository<Part>
     {
         Task<(IEnumerable<Part> parts, int totalCount)> GetAllPartsAsync(string? category = null, string? supplier = null, string? search = null);
+        Task CreatePriceHistoryAsync(int createdPartId, decimal currentCost);
     }
 }
