@@ -12,8 +12,10 @@ namespace MechanicShop.Application.Interfaces
     public interface IRepairTaskService
     {
         Task<PagedResult<RepairTaskDto>> GetAllTasks(int pageNumber, int pageSize);
+        
         Task<IEnumerable<RepairTask>> SearchByNameAsync(string searchTerm);
         Task<IEnumerable<PartDto>> GetAssociatedPartsAsync(int taskId);
         Task LinkPartsAsync(int taskId, List<int> partIds);
+        Task UnlinkPartsAsync(int taskId, List<int> partIds);
     }
 }

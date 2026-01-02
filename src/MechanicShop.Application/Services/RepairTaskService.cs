@@ -43,7 +43,7 @@ namespace MechanicShop.Application.Services
             Category = part.Category,
             Supplier = part.Supplier,
             CreatedAt = part.CreatedAt,
-            UpdatedAt = part.UpdatedAt
+            UpdatedAt = part.UpdatedAt,
         };
 
         public async Task<PagedResult<RepairTaskDto>> GetAllTasks(int pageNumber, int pageSize)
@@ -70,6 +70,11 @@ namespace MechanicShop.Application.Services
         public async Task LinkPartsAsync(int taskId, List<int> partIds)
         {
             await _repairTaskRepository.LinkPartsAsync(taskId, partIds);
+        }
+
+        public async Task UnlinkPartsAsync(int taskId, List<int> partIds)
+        {
+            await _repairTaskRepository.UnlinkPartsAsync(taskId, partIds);
         }
 
         public async Task<IEnumerable<RepairTask>> SearchByNameAsync(string searchTerm)

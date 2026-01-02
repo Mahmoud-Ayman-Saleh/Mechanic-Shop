@@ -11,5 +11,6 @@ namespace MechanicShop.Domain.Interfaces
         Task<IEnumerable<RepairTask>> SearchByNameAsync(string searchTerm);
         Task<IEnumerable<Part>> GetAssociatedPartsAsync(int taskId);
         Task LinkPartsAsync(int taskId, List<int> partIds);
+        Task UnlinkPartsAsync(int taskId, List<int> partIds);
     }
 }

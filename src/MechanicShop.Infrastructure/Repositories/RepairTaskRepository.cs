@@ -60,6 +60,30 @@ namespace MechanicShop.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task UnlinkPartsAsync(int taskId, List<int> partIds)
+        {
+            var repairTask = await _context.RepairTasks
+                .Include(rt => rt.Parts)
+                .FirstOrDefaultAsync(rt => rt.Id == taskId);
+
+            if (repairTask == null)
+                throw new KeyNotFoundException($"RepairTask with ID {taskId} not found.");
+
+            var partsToUnlink = repairTask.Parts
+                .Where(p => partIds.Contains(p.Id))
+                .ToList();
+
+            if (partsToUnlink.Count == 0)
+                throw new ArgumentException("None of the specified parts are linked to this task.");
+
+            foreach (var part in partsToUnlink)
+            {
+                repairTask.Parts.Remove(part);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<RepairTask>> SearchByNameAsync(string searchTerm)
         {
             if (string.IsNullOrWhiteSpace(searchTerm))

@@ -85,5 +85,27 @@ namespace MechanicShop.Api.Controller
             }
         }
 
+        [HttpDelete("{taskId}/parts")]
+        public async Task<IActionResult> UnlinkParts(int taskId, [FromBody] List<int> partIds)
+        {
+            try
+            {
+                await _repairTaskService.UnlinkPartsAsync(taskId, partIds);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
     }
 }

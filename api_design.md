@@ -202,6 +202,16 @@ API Design
     *   **Response (404 Not Found):** Task or Part not found.
     *   **Description:** Links specific parts to a repair task. *Does not specify quantity; just association.*
 
+*   **DELETE `/api/repair-tasks/{taskId}/parts`**
+    *   **Request (Path Param: `taskId`, Body - JSON Array of Part IDs):**
+        ```json
+        [1, 2]
+        ```
+    *   **Response (204 No Content):** Success.
+    *   **Response (404 Not Found):** Task not found.
+    *   **Response (400 Bad Request):** None of the specified parts are linked to this task.
+    *   **Description:** Unlinks specific parts from a repair task. Removes the association between the task and the specified parts.
+
 ### **Work Order Creation & Assignment**
 
 *   **POST `/api/work-orders`**
