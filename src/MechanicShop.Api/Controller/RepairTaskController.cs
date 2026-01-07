@@ -35,6 +35,62 @@ namespace MechanicShop.Api.Controller
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult<RepairTaskDto>> CreateTask([FromBody] CreateRepairTaskDto createDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var createdTask = await _repairTaskService.CreateTaskAsync(createDto);
+                return CreatedAtAction(nameof(GetAllTasks), new { }, createdTask);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("{taskId}")]
+        public async Task<ActionResult<RepairTaskDto>> UpdateTask(int taskId, [FromBody] UpdateRepairTaskDto updateDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var updatedTask = await _repairTaskService.UpdateTaskAsync(taskId, updateDto);
+                return Ok(updatedTask);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete("{taskId}")]
+        public async Task<IActionResult> DeleteTask(int taskId)
+        {
+            try
+            {
+                await _repairTaskService.DeleteTaskAsync(taskId);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<MechanicShop.Domain.Entities.RepairTask>>> SearchByName([FromQuery] string searchTerm)
         {

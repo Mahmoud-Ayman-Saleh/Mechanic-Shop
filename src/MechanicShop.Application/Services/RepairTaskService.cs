@@ -61,6 +61,59 @@ namespace MechanicShop.Application.Services
             };
         }
 
+        public async Task<RepairTaskDto> CreateTaskAsync(CreateRepairTaskDto createDto)
+        {
+            var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+            
+            var repairTask = new RepairTask
+            {
+                Name = createDto.Name,
+                EstimatedDuration = createDto.EstimatedDuration,
+                DefaultLaborCost = createDto.DefaultLaborCost,
+                CreatedAt = now,
+                UpdatedAt = now
+            };
+
+            await _unitOfWork.RepairTasks.AddAsync(repairTask);
+            await _unitOfWork.SaveChangesAsync();
+
+            return MapToDto(repairTask);
+        }
+
+        public async Task<RepairTaskDto> UpdateTaskAsync(int taskId, UpdateRepairTaskDto updateDto)
+        {
+            var repairTask = await _unitOfWork.RepairTasks.GetByIdAsync(taskId);
+            
+            if (repairTask == null)
+                throw new KeyNotFoundException($"RepairTask with ID {taskId} not found.");
+
+            repairTask.Name = updateDto.Name;
+            repairTask.EstimatedDuration = updateDto.EstimatedDuration;
+            repairTask.DefaultLaborCost = updateDto.DefaultLaborCost;
+            repairTask.UpdatedAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+
+            await _unitOfWork.RepairTasks.UpdateAsync(repairTask);
+            await _unitOfWork.SaveChangesAsync();
+
+            return MapToDto(repairTask);
+        }
+
+        public async Task DeleteTaskAsync(int taskId)
+        {
+            var repairTask = await _unitOfWork.RepairTasks.GetByIdAsync(taskId);
+            
+            if (repairTask == null)
+                throw new KeyNotFoundException($"RepairTask with ID {taskId} not found.");
+
+            var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+            repairTask.IsDeleted = true;
+            repairTask.DeletedAt = now;
+            repairTask.UpdatedAt = now;
+
+            await _unitOfWork.RepairTasks.UpdateAsync(repairTask);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<PartDto>> GetAssociatedPartsAsync(int taskId)
         {
             var parts = await _repairTaskRepository.GetAssociatedPartsAsync(taskId);

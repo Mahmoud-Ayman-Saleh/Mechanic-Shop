@@ -26,7 +26,7 @@ namespace MechanicShop.Application.Interfaces
         Task<WorkOrderDto> AssignEmployeesAsync(int workOrderId, List<int> employeeIds);
         Task<WorkOrderDto> AddRepairTasksAsync(int workOrderId, List<int> taskIds);
         Task<WorkOrderDto> AddPartsAsync(int workOrderId, List<int> partIds);
-        Task<WorkOrderDto> CompleteWorkOrderAsync(int workOrderId);
+        Task<WorkOrderDto> ChangeStateAsync(int workOrderId);
 
     }
 }
