@@ -71,8 +71,10 @@ namespace MechanicShop.Application.Services
             try
             {
                 var createdPart = await _unitOfWork.Parts.AddAsync(part);
-                // TODO: Create initial price history
+                // Save first to get the database-generated Id
+                await _unitOfWork.SaveChangesAsync();
 
+                // Now createdPart.Id is populated, create initial price history
                 await _partRepository.CreatePriceHistoryAsync(createdPart.Id, createdPart.CurrentCost);
 
                 await _unitOfWork.SaveChangesAsync();
