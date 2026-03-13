@@ -15,11 +15,13 @@ namespace MechanicShop.Application.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWorkOrderRepository _workOrderRepository;
+        private readonly IInvoiceRepository _invoiceRepository;
 
-        public WorkOrderService(IUnitOfWork unitOfWork, IWorkOrderRepository workOrderRepository)
+        public WorkOrderService(IUnitOfWork unitOfWork, IWorkOrderRepository workOrderRepository, IInvoiceRepository invoiceRepository)
         {
             _unitOfWork = unitOfWork;
             _workOrderRepository = workOrderRepository;
+            _invoiceRepository = invoiceRepository;
         }
 
         private static WorkOrderDto MapToDto(WorkOrder workOrder) => new()
@@ -135,6 +137,27 @@ namespace MechanicShop.Application.Services
                 throw new KeyNotFoundException($"WorkOrder with ID {workOrderId} not found.");
 
             return MapToDto(workOrder);
+        }
+
+        public async Task<WorkOrderDto> CompleteWorkOrderAsync(int workOrderId)
+        {
+            var workOrder = await _workOrderRepository.GetWithDetailsAsync(workOrderId);
+
+            if (workOrder == null)
+                throw new KeyNotFoundException($"WorkOrder with ID {workOrderId} not found.");
+
+            if (workOrder.State != WorkOrderState.In_Progress)
+                throw new InvalidOperationException($"WorkOrder must be in 'In_Progress' state to be completed. Current state: {workOrder.State}.");
+
+            // Change state to Completed
+            await _workOrderRepository.ChangeStateAsync(workOrderId, WorkOrderState.Completed);
+
+            // Auto-generate invoice
+            await _invoiceRepository.CreateFromWorkOrderAsync(workOrderId);
+
+            // Fetch the updated work order with all details
+            var completedWorkOrder = await _workOrderRepository.GetWithDetailsAsync(workOrderId);
+            return MapToDto(completedWorkOrder!);
         }
 
         public async Task<WorkOrderDto> UpdateWorkOrderAsync(int workOrderId)

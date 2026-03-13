@@ -229,5 +229,26 @@ namespace MechanicShop.Api.Controller
                 return StatusCode(500, ex.Message);
             }
         }
+        [HttpPut("{workOrderId}/complete")]
+        public async Task<ActionResult<WorkOrderDto>> CompleteWorkOrder(int workOrderId)
+        {
+            try
+            {
+                var completedWorkOrder = await _workOrderService.CompleteWorkOrderAsync(workOrderId);
+                return Ok(completedWorkOrder);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

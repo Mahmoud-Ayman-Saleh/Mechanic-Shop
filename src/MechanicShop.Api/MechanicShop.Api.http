@@ -1,6 +1,413 @@
-@MechanicShop.Api_HostAddress = http://localhost:5190
+@baseUrl = http://localhost:5190
 
-GET {{MechanicShop.Api_HostAddress}}/weatherforecast/
+
+###############################################################################
+#                           PART CONTROLLER
+#                         Route: /Part
+###############################################################################
+
+### Get All Parts (paginated)
+GET {{baseUrl}}/Part?pageNumber=1&pageSize=10
+Accept: application/json
+
+###
+
+### Get All Parts – with category filter
+GET {{baseUrl}}/Part?pageNumber=1&pageSize=10&category=Filters
+Accept: application/json
+
+###
+
+### Get All Parts – with supplier filter
+GET {{baseUrl}}/Part?pageNumber=1&pageSize=10&supplier=AutoParts Co.
+Accept: application/json
+
+###
+
+### Get All Parts – with search
+GET {{baseUrl}}/Part?search=brake
+Accept: application/json
+
+###
+
+### Get Part by ID – exists (id=1 Oil Filter)
+GET {{baseUrl}}/Part/1
+Accept: application/json
+
+###
+
+### Get Part by ID – NOT FOUND (id=999)
+GET {{baseUrl}}/Part/999
+Accept: application/json
+
+###
+
+### ---Create Part
+POST {{baseUrl}}/Part
+Content-Type: application/json
+
+{
+  "name": "Transmission Fluid",
+  "description": "ATF IV automatic transmission fluid 1L",
+  "currentCost": 18.75,
+  "stockQuantity": 40,
+  "category": "Fluids",
+  "supplier": "FluidMaster"
+}
+
+###
+
+### Update Part (id=1)
+PUT {{baseUrl}}/Part/partId?partId=1
+Content-Type: application/json
+
+{
+  "name": "Oil Filter Premium",
+  "description": "Premium oil filter for most cars",
+  "currentCost": 17.50,
+  "stockQuantity": 95,
+  "category": "Filters",
+  "supplier": "AutoParts Co."
+}
+
+###
+
+### Adjust Stock – increase (id=1, +10)
+PATCH {{baseUrl}}/Part/1/adjust-stock
+Content-Type: application/json
+
+{
+  "adjustment": 10
+}
+
+###
+
+### Adjust Stock – decrease (id=1, -5)
+PATCH {{baseUrl}}/Part/1/adjust-stock
+Content-Type: application/json
+
+{
+  "adjustment": -5
+}
+
+###
+
+### Delete Part (id=11 – the one we created)
+DELETE {{baseUrl}}/Part/11
+
+###
+
+### Delete Part – NOT FOUND (id=999)
+DELETE {{baseUrl}}/Part/999
+
+
+###############################################################################
+#                       REPAIR TASK CONTROLLER
+#                     Route: /api/RepairTask
+###############################################################################
+
+###
+
+### Get All Repair Tasks (paginated)
+GET {{baseUrl}}/api/RepairTask?pageNumber=1&pageSize=10
+Accept: application/json
+
+###
+
+### Create Repair Task
+POST {{baseUrl}}/api/RepairTask
+Content-Type: application/json
+
+{
+  "name": "Wheel Alignment",
+  "estimatedDuration": "01:00:00",
+  "defaultLaborCost": 55.00
+}
+
+###
+
+### Update Repair Task (id=1 – Oil Change)
+PUT {{baseUrl}}/api/RepairTask/1
+Content-Type: application/json
+
+{
+  "name": "Oil Change",
+  "estimatedDuration": "00:40:00",
+  "defaultLaborCost": 35.00
+}
+
+###
+
+### Update Repair Task – NOT FOUND (id=999)
+PUT {{baseUrl}}/api/RepairTask/999
+Content-Type: application/json
+
+{
+  "name": "Non-existent Task",
+  "estimatedDuration": "01:00:00",
+  "defaultLaborCost": 50.00
+}
+
+###
+
+### Search Repair Tasks by name
+GET {{baseUrl}}/api/RepairTask/search?searchTerm=oil
+Accept: application/json
+
+###
+
+### Get Associated Parts for Task (id=1 – Oil Change → Oil Filter, Engine Oil)
+GET {{baseUrl}}/api/RepairTask/1/parts
+Accept: application/json
+
+###
+
+### Link Parts to Repair Task (id=7 – Full Inspection, link parts 1,4)
+POST {{baseUrl}}/api/RepairTask/7/parts
+Content-Type: application/json
+
+[1, 4]
+
+###
+
+### Unlink Parts from Repair Task (id=7, unlink part 4)
+DELETE {{baseUrl}}/api/RepairTask/7/parts
+Content-Type: application/json
+
+[4]
+
+###
+
+### Delete Repair Task (id=9 – the Wheel Alignment we created)
+DELETE {{baseUrl}}/api/RepairTask/9
+
+###
+
+### Delete Repair Task – NOT FOUND (id=999)
+DELETE {{baseUrl}}/api/RepairTask/999
+
+
+###############################################################################
+#                       WORK ORDER CONTROLLER
+#                     Route: /api/work-orders
+###############################################################################
+
+###
+
+### Get All Work Orders (paginated)
+GET {{baseUrl}}/api/work-orders?pageNumber=1&pageSize=20
+Accept: application/json
+
+###
+
+### Get All Work Orders – filter by state
+GET {{baseUrl}}/api/work-orders?state=In_Progress
+Accept: application/json
+
+###
+
+### Get All Work Orders – search by vehicle/customer info
+GET {{baseUrl}}/api/work-orders?search=toyota
+Accept: application/json
+
+###
+
+### Get Work Order by ID – exists (id=2 – In_Progress)
+GET {{baseUrl}}/api/work-orders/2
+Accept: application/json
+
+###
+
+### Get Work Order by ID – NOT FOUND (id=999)
+GET {{baseUrl}}/api/work-orders/999
+Accept: application/json
+
+###
+
+### Get Work Orders by Employee (employee id=1 – Omar)
+GET {{baseUrl}}/api/work-orders/employee/1
+Accept: application/json
+
+###
+
+### Get Work Orders by Customer (customer id=1 – Youssef)
+GET {{baseUrl}}/api/work-orders/customer/1
+Accept: application/json
+
+###
+
+### Get Work Orders by Vehicle (vehicle id=1 – Toyota Camry)
+GET {{baseUrl}}/api/work-orders/vehicle/1
+Accept: application/json
+
+###
+
+### -- Create Work Order – basic (vehicle only)
+POST {{baseUrl}}/api/work-orders
+Content-Type: application/json
+
+{
+  "vehicleId": 5
+}
+
+###
+
+### -- Create Work Order – with employees, tasks, and parts
+POST {{baseUrl}}/api/work-orders
+Content-Type: application/json
+
+{
+  "vehicleId": 1,
+  "employeeIds": [1, 2],
+  "repairTaskIds": [7],
+  "partIds": [1, 4]
+}
+
+###
+
+### Assign Employees to Work Order (id=1 – Scheduled)
+PUT {{baseUrl}}/api/work-orders/1/assign-employees
+Content-Type: application/json
+
+[2, 3]
+
+###
+
+### Assign Employees – NOT FOUND work order (id=999)
+PUT {{baseUrl}}/api/work-orders/999/assign-employees
+Content-Type: application/json
+
+[1]
+
+###
+
+### Assign Employees – invalid employee IDs
+PUT {{baseUrl}}/api/work-orders/1/assign-employees
+Content-Type: application/json
+
+[999, 888]
+
+###
+
+### Add Repair Tasks to Work Order (id=1)
+PUT {{baseUrl}}/api/work-orders/1/add-repair-tasks
+Content-Type: application/json
+
+[1, 3]
+
+###
+
+### Add Repair Tasks – NOT FOUND work order (id=999)
+PUT {{baseUrl}}/api/work-orders/999/add-repair-tasks
+Content-Type: application/json
+
+[1]
+
+###
+
+### Add Parts to Work Order (id=1)
+PUT {{baseUrl}}/api/work-orders/1/add-parts
+Content-Type: application/json
+
+[1, 3, 10]
+
+###
+
+### Add Parts – NOT FOUND work order (id=999)
+PUT {{baseUrl}}/api/work-orders/999/add-parts
+Content-Type: application/json
+
+[1]
+
+###
+
+###  ---- Change State – Scheduled → In_Progress (id=1)
+PUT {{baseUrl}}/api/work-orders/1/state
+Content-Type: application/json
+
+"In_Progress"
+
+###
+
+### ----- Change State – NOT FOUND (id=999)
+PUT {{baseUrl}}/api/work-orders/999/state
+Content-Type: application/json
+
+"In_Progress"
+
+###
+
+###  ----- Update Work Order timestamp (id=1)
+PUT {{baseUrl}}/api/work-orders/1
+
+###
+
+
+###############################################################################
+#                    COMPLETE WORK ORDER & INVOICE
+#                   PUT /api/work-orders/{id}/complete
+#                   GET /api/invoices/{id}
+###############################################################################
+
+###
+
+### Complete Work Order – SUCCESS (id=2 – is In_Progress)
+### This should change state to Completed and auto-generate an invoice
+PUT  ----- {{baseUrl}}/api/work-orders/2/complete
+
+###
+
+### Complete Work Order – BAD REQUEST (id=1 – is Scheduled, not In_Progress)
+### Expected: 400 Bad Request
+PUT {{baseUrl}}/api/work-orders/1/complete
+
+###
+
+### Complete Work Order – BAD REQUEST (id=4 – already Completed)
+### Expected: 400 Bad Request
+PUT {{baseUrl}}/api/work-orders/4/complete
+
+###
+
+### Complete Work Order – BAD REQUEST (id=5 – is Cancelled)
+### Expected: 400 Bad Request
+PUT {{baseUrl}}/api/work-orders/5/complete
+
+###
+
+### Complete Work Order – NOT FOUND (id=999)
+### Expected: 404 Not Found
+PUT {{baseUrl}}/api/work-orders/999/complete
+
+###
+
+### ---- Complete Work Order – SUCCESS (id=3 – In_Progress, second test)
+PUT {{baseUrl}}/api/work-orders/3/complete
+
+
+###############################################################################
+#                       INVOICE CONTROLLER
+#                     Route: /api/invoices
+###############################################################################
+
+###
+
+### Get Invoice – pre-existing (id=1 – from WO 4 in seed data)
+GET {{baseUrl}}/api/invoices/1
+Accept: application/json
+
+###
+
+###  ----- Get Invoice – auto-generated (id=2 – created when WO 2 was completed)
+### Run the "Complete Work Order – SUCCESS (id=2)" request first!
+GET {{baseUrl}}/api/invoices/2
+Accept: application/json
+
+###
+
+### Get Invoice – NOT FOUND (id=999)
+### Expected: 404 Not Found
+GET {{baseUrl}}/api/invoices/999
 Accept: application/json
 
 ###

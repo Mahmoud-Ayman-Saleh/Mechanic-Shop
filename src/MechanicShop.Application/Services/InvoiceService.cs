@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MechanicShop.Application.DTO.Invoice;
+using MechanicShop.Application.Interfaces;
+using MechanicShop.Domain.Entities;
+using MechanicShop.Domain.Interfaces;
+
+namespace MechanicShop.Application.Services
+{
+    public class InvoiceService : IInvoiceService
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IInvoiceRepository _invoiceRepository;
+
+        public InvoiceService(IUnitOfWork unitOfWork, IInvoiceRepository invoiceRepository)
+        {
+            _unitOfWork = unitOfWork;
+            _invoiceRepository = invoiceRepository;
+        }
+
+        private static InvoiceDto MapToDto(Invoice invoice) => new()
+        {
+            Id = invoice.Id,
+            WorkOrderId = invoice.WorkOrderId,
+            Subtotal = invoice.Subtotal,
+            Discount = invoice.Discount,
+            TaxRate = invoice.TaxRate,
+            TaxAmount = invoice.TaxAmount,
+            TotalAmount = invoice.TotalAmount,
+            PaymentStatus = invoice.PaymentStatus.ToString(),
+            IssuedAt = invoice.IssuedAt,
+            CreatedAt = invoice.CreatedAt
+        };
+
+        public async Task<InvoiceDto> GetInvoiceByIdAsync(int invoiceId)
+        {
+            var invoice = await _unitOfWork.Invoices.GetByIdAsync(invoiceId);
+
+            if (invoice == null || invoice.IsDeleted)
+                throw new KeyNotFoundException($"Invoice with ID {invoiceId} not found.");
+
+            return MapToDto(invoice);
+        }
+    }
+}

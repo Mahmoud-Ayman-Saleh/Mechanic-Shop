@@ -119,3 +119,6 @@
 /home/mahmoud/ASP.NET Projects/Mechanic-Shop/tests/MechanicShop.IntegrationTests/obj/Debug/net9.0/MechanicShop.IntegrationTests.pdb
 /home/mahmoud/ASP.NET Projects/Mechanic-Shop/tests/MechanicShop.IntegrationTests/obj/Debug/net9.0/MechanicShop.IntegrationTests.genruntimeconfig.cache
 /home/mahmoud/ASP.NET Projects/Mechanic-Shop/tests/MechanicShop.IntegrationTests/obj/Debug/net9.0/ref/MechanicShop.IntegrationTests.dll
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/tests/MechanicShop.IntegrationTests/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/tests/MechanicShop.IntegrationTests/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/home/mahmoud/ASP.NET Projects/Mechanic-Shop/tests/MechanicShop.IntegrationTests/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
