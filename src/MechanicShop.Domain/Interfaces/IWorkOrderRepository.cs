@@ -10,6 +10,7 @@ namespace MechanicShop.Domain.Interfaces
     public interface IWorkOrderRepository : IGenericRepository
     {
         Task<WorkOrder?> GetWithDetailsAsync(int id);
+        Task<IEnumerable<WorkOrder>> GetAllWithDetailsAsync();
         Task AssignEmployeesAsync(int workOrderId, List<int> employeeIds);
         Task AddRepairTasksAsync(int workOrderId, List<int> taskIds);
         Task AddPartsAsync(int workOrderId, List<int> partIds);

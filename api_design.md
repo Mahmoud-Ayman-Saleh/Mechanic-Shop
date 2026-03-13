@@ -212,7 +212,98 @@ API Design
     *   **Response (400 Bad Request):** None of the specified parts are linked to this task.
     *   **Description:** Unlinks specific parts from a repair task. Removes the association between the task and the specified parts.
 
-### **Work Order Creation & Assignment**
+### **Work Order Management**
+
+*   **GET `/api/work-orders`**
+    *   **Request:** (Optional query params: `pageNumber`, `pageSize`, `state`, `search`)
+        - `pageNumber` (default: 1): Page number for pagination
+        - `pageSize` (default: 20): Number of items per page
+        - `state` (optional): Filter by state (e.g., "Scheduled", "In_Progress", "Completed", "Canceled")
+        - `search` (optional): Search across vehicle make, model, license plate, customer name, and customer email
+    *   **Response (200 OK):**
+        ```json
+        {
+          "items": [
+            {
+              "id": 1,
+              "vehicleId": 1,
+              "vehicle": {
+                "id": 1,
+                "make": "Toyota",
+                "model": "Camry",
+                "year": 2020,
+                "licensePlate": "ABC123",
+                "customer": {
+                  "id": 1,
+                  "name": "John Doe",
+                  "email": "john@example.com",
+                  "phoneNumber": "+1234567890"
+                }
+              },
+              "startAt": "2023-10-27T10:00:00Z",
+              "endAt": null,
+              "state": "Scheduled",
+              "employees": [
+                {
+                  "id": 1,
+                  "name": "Jane Smith",
+                  "email": "jane@mechanicshop.com",
+                  "title": "Senior Mechanic"
+                }
+              ],
+              "createdAt": "2023-10-27T10:00:00Z",
+              "updatedAt": "2023-10-27T10:00:00Z"
+            }
+          ],
+          "totalCount": 50,
+          "pageNumber": 1,
+          "pageSize": 20
+        }
+        ```
+    *   **Example Requests:**
+        - `GET /api/work-orders` - Get all work orders (page 1, 20 items)
+        - `GET /api/work-orders?state=Completed` - Get completed work orders
+        - `GET /api/work-orders?search=toyota` - Search for "toyota" in vehicle/customer info
+        - `GET /api/work-orders?state=In_Progress&search=john&pageNumber=1&pageSize=10` - Combined filters
+    *   **Description:** Lists all WorkOrders with optional filtering and search. Returns paginated results with complete vehicle, customer, and employee information. State is returned as a string value.
+
+*   **GET `/api/work-orders/{workOrderId}`**
+    *   **Request (Path Param: `workOrderId`)**
+    *   **Response (200 OK):**
+        ```json
+        {
+          "id": 1,
+          "vehicleId": 1,
+          "vehicle": {
+            "id": 1,
+            "make": "Toyota",
+            "model": "Camry",
+            "year": 2020,
+            "licensePlate": "ABC123",
+            "customer": {
+              "id": 1,
+              "name": "John Doe",
+              "email": "john@example.com",
+              "phoneNumber": "+1234567890"
+            }
+          },
+          "startAt": "2023-10-27T10:00:00Z",
+          "endAt": null,
+          "state": "Scheduled",
+          "employees": [
+            {
+              "id": 1,
+              "name": "Jane Smith",
+              "email": "jane@mechanicshop.com",
+              "title": "Senior Mechanic"
+            }
+          ],
+          "createdAt": "2023-10-27T10:00:00Z",
+          "updatedAt": "2023-10-27T10:00:00Z"
+        }
+        ```
+    *   **Response (404 Not Found):** WorkOrder not found.
+    *   **Description:** Retrieves a specific WorkOrder with complete vehicle, customer, and employee information.
 
 *   **POST `/api/work-orders`**
     *   **Request (Body - JSON):**
@@ -229,9 +320,36 @@ API Design
         {
           "id": 1,
           "vehicleId": 1,
-          "startAt": "2023-10-27T10:00:00Z", // Default to NOW()
+          "vehicle": {
+            "id": 1,
+            "make": "Toyota",
+            "model": "Camry",
+            "year": 2020,
+            "licensePlate": "ABC123",
+            "customer": {
+              "id": 1,
+              "name": "John Doe",
+              "email": "john@example.com",
+              "phoneNumber": "+1234567890"
+            }
+          },
+          "startAt": "2023-10-27T10:00:00Z",
           "endAt": null,
-          "state": "Scheduled",
+          "state": "Scheduled", // String: "Scheduled", "In_Progress", "Completed", "Canceled"
+          "employees": [
+            {
+              "id": 1,
+              "name": "Jane Smith",
+              "email": "jane@mechanicshop.com",
+              "title": "Senior Mechanic"
+            },
+            {
+              "id": 2,
+              "name": "Bob Wilson",
+              "email": "bob@mechanicshop.com",
+              "title": "Mechanic"
+            }
+          ],
           "createdAt": "2023-10-27T10:00:00Z",
           "updatedAt": "2023-10-27T10:00:00Z"
         }
@@ -312,25 +430,42 @@ API Design
           {
             "id": 1,
             "vehicleId": 1,
+            "vehicle": {
+              "id": 1,
+              "make": "Toyota",
+              "model": "Camry",
+              "year": 2020,
+              "licensePlate": "ABC123",
+              "customer": {
+                "id": 1,
+                "name": "John Doe",
+                "email": "john@example.com",
+                "phoneNumber": "+1234567890"
+              }
+            },
             "startAt": "2023-10-27T10:00:00Z",
             "endAt": null,
             "state": "Scheduled",
-            "assignedEmployees": [
-              { "id": 1, "hoursWorked": 0.0 },
-              { "id": 2, "hoursWorked": 0.0 }
-            ],
-            "repairTasks": [
-              { "id": 1, "name": "Oil Change", "laborCostAtUse": 45.00 }
-            ],
-            "parts": [
-              { "id": 1, "name": "Oil Filter", "unitPriceAtUse": 15.99, "quantityUsed": 0 }
+            "employees": [
+              {
+                "id": 1,
+                "name": "Jane Smith",
+                "email": "jane@mechanicshop.com",
+                "title": "Senior Mechanic"
+              },
+              {
+                "id": 2,
+                "name": "Bob Wilson",
+                "email": "bob@mechanicshop.com",
+                "title": "Mechanic"
+              }
             ],
             "createdAt": "2023-10-27T10:00:00Z",
             "updatedAt": "2023-10-27T10:00:00Z"
           }
         ]
         ```
-    *   **Description:** Lists all WorkOrders assigned to the currently logged-in employee. Includes details of assigned tasks and parts with their locked prices.
+    *   **Description:** Lists all WorkOrders assigned to the currently logged-in employee. Returns enhanced DTOs with complete vehicle, customer, and employee information.
 
 *   **PUT `/api/work-orders/{workOrderId}/start`**
     *   **Request (Path Param: `workOrderId`)**
@@ -529,24 +664,66 @@ API Design
           {
             "id": 1,
             "vehicleId": 1,
+            "vehicle": {
+              "id": 1,
+              "make": "Toyota",
+              "model": "Camry",
+              "year": 2020,
+              "licensePlate": "ABC123",
+              "customer": {
+                "id": 1,
+                "name": "John Doe",
+                "email": "john@example.com",
+                "phoneNumber": "+1234567890"
+              }
+            },
             "startAt": "2023-10-27T10:00:00Z",
             "endAt": null,
             "state": "Scheduled",
+            "employees": [
+              {
+                "id": 1,
+                "name": "Jane Smith",
+                "email": "jane@mechanicshop.com",
+                "title": "Senior Mechanic"
+              }
+            ],
             "createdAt": "2023-10-27T10:00:00Z",
             "updatedAt": "2023-10-27T10:00:00Z"
           },
           {
             "id": 2,
             "vehicleId": 1,
+            "vehicle": {
+              "id": 1,
+              "make": "Toyota",
+              "model": "Camry",
+              "year": 2020,
+              "licensePlate": "ABC123",
+              "customer": {
+                "id": 1,
+                "name": "John Doe",
+                "email": "john@example.com",
+                "phoneNumber": "+1234567890"
+              }
+            },
             "startAt": "2023-10-25T09:00:00Z",
             "endAt": "2023-10-25T11:00:00Z",
             "state": "Completed",
+            "employees": [
+              {
+                "id": 2,
+                "name": "Bob Wilson",
+                "email": "bob@mechanicshop.com",
+                "title": "Mechanic"
+              }
+            ],
             "createdAt": "2023-10-25T09:00:00Z",
             "updatedAt": "2023-10-25T11:00:00Z"
           }
         ]
         ```
-    *   **Description:** Lists all WorkOrders associated with the customer's vehicles.
+    *   **Description:** Lists all WorkOrders associated with the customer's vehicles. Returns enhanced DTOs with complete vehicle, customer, and employee information.
 
 *   **GET `/api/work-orders/{workOrderId}`**
     *   **Request (Path Param: `workOrderId`)**

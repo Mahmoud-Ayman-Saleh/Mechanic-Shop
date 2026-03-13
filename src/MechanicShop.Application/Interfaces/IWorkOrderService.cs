@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MechanicShop.Application.DTO.WorkOrder;
 using MechanicShop.Domain.Common;
+using MechanicShop.Domain.Enums;
 
 namespace MechanicShop.Application.Interfaces
 {
@@ -26,7 +27,8 @@ namespace MechanicShop.Application.Interfaces
         Task<WorkOrderDto> AssignEmployeesAsync(int workOrderId, List<int> employeeIds);
         Task<WorkOrderDto> AddRepairTasksAsync(int workOrderId, List<int> taskIds);
         Task<WorkOrderDto> AddPartsAsync(int workOrderId, List<int> partIds);
-        Task<WorkOrderDto> ChangeStateAsync(int workOrderId);
+        Task<WorkOrderDto> UpdateWorkOrderAsync(int workOrderId);
+        Task<WorkOrderDto> ChangeStateAsync(int workOrderId, WorkOrderState newState);
 
     }
 }

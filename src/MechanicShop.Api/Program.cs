@@ -21,14 +21,14 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IPartRepository, PartRepository>();
 builder.Services.AddScoped<IRepairTaskRepository, RepairTaskRepository>();
 // Add other repositories as needed
-// builder.Services.AddScoped<IWorkOrderRepository, WorkOrderRepository>();
+builder.Services.AddScoped<IWorkOrderRepository, WorkOrderRepository>();
 // builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 
 // Register Application Services
 builder.Services.AddScoped<IPartService, PartService>();
 builder.Services.AddScoped<IRepairTaskService, RepairTaskService>();
 // Add other services as needed
-// builder.Services.AddScoped<IWorkOrderService, WorkOrderService>();
+builder.Services.AddScoped<IWorkOrderService, WorkOrderService>();
 
 // Configure Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
